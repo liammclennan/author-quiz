@@ -9,6 +9,7 @@ var quiz = {
 
 	app.models.Books = Backbone.Collection.extend({
 		model: app.models.Book,
+		url: 'http://withouttheloop.com:3002/books'
 	});
 	
 	app.views.Page = Backbone.View.extend({
@@ -66,33 +67,11 @@ var quiz = {
 })(quiz);
 
 $(function () {
-	var books = new quiz.models.Books([
-		new quiz.models.Book({title: 'Pride & Prejudice', authorImg: 'austen.jpg'}),
-		new quiz.models.Book({title: 'Heart of Darkness', authorImg: 'conrad.jpg'}),
-		new quiz.models.Book({title: 'Lord Jim', authorImg: 'conrad.jpg'}),
-		new quiz.models.Book({title: 'Tender is the Night', authorImg: 'fitzgerald.jpg'}),
-		new quiz.models.Book({title: 'The Sun Also Rises', authorImg: 'hemingway.jpg'}),
-		new quiz.models.Book({title: 'The Old Man and The Sea', authorImg: 'hemingway.jpg'}),
-		new quiz.models.Book({title: 'The Stand', authorImg: 'king.jpg'}),
-		new quiz.models.Book({title: 'Misery', authorImg: 'king.jpg'}),
-		new quiz.models.Book({title: 'Moby Dick', authorImg: 'melville.jpg'}),
-		new quiz.models.Book({title: '1984', authorImg: 'orwell.jpg'}),
-		new quiz.models.Book({title: 'Animal Farm', authorImg: 'orwell.jpg'}),
-		new quiz.models.Book({title: 'The Cask of Amontillado', authorImg: 'poe.jpg'}),
-		new quiz.models.Book({title: 'The Raven', authorImg: 'poe.jpg'}),
-		new quiz.models.Book({title: 'Midnight\'s Children', authorImg: 'rushdie.jpg'}),
-		new quiz.models.Book({title: 'Satanic Verses', authorImg: 'rushdie.jpg'}),
-		new quiz.models.Book({title: 'Frankenstein', authorImg: 'shelley.jpg'}),
-		new quiz.models.Book({title: 'Dracula', authorImg: 'stoker.jpg'}),
-		new quiz.models.Book({title: 'Walden', authorImg: 'thoreau.jpg'}),
-		new quiz.models.Book({title: 'Civil Disobedience', authorImg: 'thoreau.jpg'}),
-		new quiz.models.Book({title: 'Lord of the Rings', authorImg: 'tolkein.jpg'}),
-		new quiz.models.Book({title: 'The Hobbit', authorImg: 'tolkein.jpg'}),
-		new quiz.models.Book({title: 'War and Peace', authorImg: 'tolstoy.jpg'}),
-		new quiz.models.Book({title: 'Adventures of Huckleberry Finn', authorImg: 'twain.jpg'}),
-		new quiz.models.Book({title: 'The Awful German Language', authorImg: 'twain.jpg'})
-	]);
-
-	var page = new quiz.views.Page({collection: books.shuffle().slice(0,3)});
-	$('body').append(page.render().el);
+	var books = new quiz.models.Books();
+	books.fetch({
+		success: function() {
+			var page = new quiz.views.Page({collection: books.shuffle().slice(0,3)});
+			$('body').append(page.render().el);
+		}
+	});
 });
