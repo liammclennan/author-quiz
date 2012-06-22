@@ -1,0 +1,3 @@
+while read p; 
+  do curl -vX POST http://withouttheloop.com:3002/books -H "Content-Type: application/json" -d "$p"; 
+done < book_array.js
